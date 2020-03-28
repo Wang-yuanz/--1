@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yan.dao.FeedbackMapper" >
+  <resultMap id="BaseResultMap" type="com.yan.pojo.Feedback" >
+    <id column="fbid" property="fbid" jdbcType="INTEGER" />
+    <result column="fbcontent" property="fbcontent" jdbcType="VARCHAR" />
+    <result column="fbtime" property="fbtime" jdbcType="TIMESTAMP" />
+    <result column="fbuname" property="fbuname" jdbcType="VARCHAR" />
+    <result column="userid" property="userid" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    fbid, fbcontent, fbtime, fbuname, userid
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from feedback
+    where fbid = #{fbid,jdbcType=INTEGER}
+  </select>
+  
+  
+    <select id="selectFeedbacks" resultMap="BaseResultMap" parameterType="com.yan.pojo.Feedback"  >
+    select 
+    <include refid="Base_Column_List" />
+    from feedback
+   </select>
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from feedback
+    where fbid = #{fbid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.yan.pojo.Feedback" >
+    insert into feedback (fbid, fbcontent, fbtime, 
+      fbuname, userid)
+    values (#{fbid,jdbcType=INTEGER}, #{fbcontent,jdbcType=VARCHAR}, #{fbtime,jdbcType=TIMESTAMP}, 
+      #{fbuname,jdbcType=VARCHAR}, #{userid,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yan.pojo.Feedback" >
+    insert into feedback
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="fbid != null" >
+        fbid,
+      </if>
+      <if test="fbcontent != null" >
+        fbcontent,
+      </if>
+      <if test="fbtime != null" >
+        fbtime,
+      </if>
+      <if test="fbuname != null" >
+        fbuname,
+      </if>
+      <if test="userid != null" >
+        userid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="fbid != null" >
+        #{fbid,jdbcType=INTEGER},
+      </if>
+      <if test="fbcontent != null" >
+        #{fbcontent,jdbcType=VARCHAR},
+      </if>
+      <if test="fbtime != null" >
+        #{fbtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fbuname != null" >
+        #{fbuname,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yan.pojo.Feedback" >
+    update feedback
+    <set >
+      <if test="fbcontent != null" >
+        fbcontent = #{fbcontent,jdbcType=VARCHAR},
+      </if>
+      <if test="fbtime != null" >
+        fbtime = #{fbtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fbuname != null" >
+        fbuname = #{fbuname,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null" >
+        userid = #{userid,jdbcType=INTEGER},
+      </if>
+    </set>
+    where fbid = #{fbid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yan.pojo.Feedback" >
+    update feedback
+    set fbcontent = #{fbcontent,jdbcType=VARCHAR},
+      fbtime = #{fbtime,jdbcType=TIMESTAMP},
+      fbuname = #{fbuname,jdbcType=VARCHAR},
+      userid = #{userid,jdbcType=INTEGER}
+    where fbid = #{fbid,jdbcType=INTEGER}
+  </update>
+</mapper>

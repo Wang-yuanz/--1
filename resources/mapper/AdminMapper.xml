@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yan.dao.AdminMapper" >
+  <resultMap id="BaseResultMap" type="com.yan.pojo.Admin" >
+    <id column="adminid" property="adminid" jdbcType="INTEGER" />
+    <result column="adminuname" property="adminuname" jdbcType="VARCHAR" />
+    <result column="adminpwd" property="adminpwd" jdbcType="VARCHAR" />
+    <result column="adminrole" property="adminrole" jdbcType="INTEGER" />
+    <result column="adminphone" property="adminphone" jdbcType="VARCHAR" />
+    <result column="idno" property="idno" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="CHAR" />
+    <result column="addrs" property="addrs" jdbcType="VARCHAR" />
+    <result column="pic" property="pic" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    adminid, adminuname, adminpwd, adminrole, adminphone, idno, sex, addrs,  
+     pic, name
+  </sql>
+  
+    <select id="selectAllAdmin" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select 
+    <include refid="Base_Column_List" />
+    from admin
+     where 1=1
+      <if test="name!= null and name!=''" >
+      AND name LIKE  CONCAT('%',#{name},'%')
+      
+      </if>
+       <if test="idno!= null and idno!=''">
+      AND  idno = #{idno,jdbcType=VARCHAR}
+      </if>
+      <if test="adminphone != null and adminphone !=''" >
+      AND  adminphone = #{adminphone,jdbcType=VARCHAR}
+      </if>
+      <if test="yujing != null and yujing !=''" >
+      AND  adminphone = #{adminphone,jdbcType=VARCHAR}
+      </if>
+      order by adminid  desc
+  </select>
+  <select id="selectAllcoachs" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select 
+    <include refid="Base_Column_List" />
+    from admin
+     where  adminrole=1
+      <if test="name!= null and name!=''" >
+      AND name LIKE  CONCAT('%',#{name},'%')
+      </if>
+      order by adminid  desc
+  </select>
+  
+  
+  <select id="selectByName" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select 
+    <include refid="Base_Column_List" />
+    from admin
+    where adminuname = #{adminuname,jdbcType=VARCHAR}
+  </select>
+  
+  
+  <select id="selectByPhone" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select 
+    <include refid="Base_Column_List" />
+    from admin
+    where adminphone = #{adminphone,jdbcType=VARCHAR}
+  </select>
+  
+  
+  
+    <select id="selectByUsernameAndPassword" resultMap="BaseResultMap" parameterType="com.yan.pojo.Admin" >
+    select 
+    <include refid="Base_Column_List" />
+    from admin
+    where adminuname = #{adminuname,jdbcType=VARCHAR} AND adminpwd = #{adminpwd,jdbcType=VARCHAR}
+    
+  </select>
+  
+  
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from admin
+    where adminid = #{adminid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from admin
+    where adminid = #{adminid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" useGeneratedKeys="true" keyProperty="adminid" keyColumn="adminid"   parameterType="com.yan.pojo.Admin" >
+    insert into admin (adminid, adminuname, adminpwd, 
+      adminrole, adminphone, idno, 
+      sex, addrs, pic, name
+      )
+    values (#{adminid,jdbcType=INTEGER}, #{adminuname,jdbcType=VARCHAR}, #{adminpwd,jdbcType=VARCHAR}, 
+      #{adminrole,jdbcType=INTEGER}, #{adminphone,jdbcType=VARCHAR}, #{idno,jdbcType=VARCHAR}, 
+      #{sex,jdbcType=CHAR}, #{addrs,jdbcType=VARCHAR},  
+       #{pic,jdbcType=VARCHAR},#{name,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" useGeneratedKeys="true" keyProperty="adminid" keyColumn="adminid"   parameterType="com.yan.pojo.Admin" >
+    insert into admin
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="adminid != null" >
+        adminid,
+      </if>
+      <if test="adminuname != null" >
+        adminuname,
+      </if>
+      <if test="adminpwd != null" >
+        adminpwd,
+      </if>
+      <if test="adminrole != null" >
+        adminrole,
+      </if>
+      <if test="adminphone != null" >
+        adminphone,
+      </if>
+      <if test="idno != null" >
+        idno,
+      </if>
+      <if test="sex != null" >
+        sex,
+      </if>
+      <if test="addrs != null" >
+        addrs,
+      </if>
+      
+       
+      <if test="pic != null" >
+        pic,
+      </if>
+      
+      <if test="name != null" >
+        name
+      </if>
+      
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="adminid != null" >
+        #{adminid,jdbcType=INTEGER},
+      </if>
+      <if test="adminuname != null" >
+        #{adminuname,jdbcType=VARCHAR},
+      </if>
+      <if test="adminpwd != null" >
+        #{adminpwd,jdbcType=VARCHAR},
+      </if>
+      <if test="adminrole != null" >
+        #{adminrole,jdbcType=INTEGER},
+      </if>
+      <if test="adminphone != null" >
+        #{adminphone,jdbcType=VARCHAR},
+      </if>
+      <if test="idno != null" >
+        #{idno,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=CHAR},
+      </if>
+      <if test="addrs != null" >
+        #{addrs,jdbcType=VARCHAR},
+      </if>
+       
+      
+      <if test="pic != null" >
+        #{pic,jdbcType=VARCHAR},
+      </if>
+      
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+       
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yan.pojo.Admin" >
+    update admin
+    <set >
+      <if test="adminuname != null" >
+        adminuname = #{adminuname,jdbcType=VARCHAR},
+      </if>
+      <if test="adminpwd != null" >
+        adminpwd = #{adminpwd,jdbcType=VARCHAR},
+      </if>
+      <if test="adminrole != null" >
+        adminrole = #{adminrole,jdbcType=INTEGER},
+      </if>
+      <if test="adminphone != null" >
+        adminphone = #{adminphone,jdbcType=VARCHAR},
+      </if>
+      <if test="idno != null" >
+        idno = #{idno,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        sex = #{sex,jdbcType=CHAR},
+      </if>
+      <if test="addrs != null" >
+        addrs = #{addrs,jdbcType=VARCHAR},
+      </if>
+      <if test="pic != null" >
+        pic = #{pic,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where adminid = #{adminid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yan.pojo.Admin" >
+    update admin
+    set adminuname = #{adminuname,jdbcType=VARCHAR},
+      adminpwd = #{adminpwd,jdbcType=VARCHAR},
+      adminrole = #{adminrole,jdbcType=INTEGER},
+      adminphone = #{adminphone,jdbcType=VARCHAR},
+      idno = #{idno,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=CHAR},
+      addrs = #{addrs,jdbcType=VARCHAR},
+      pic = #{pic,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR}
+    where adminid = #{adminid,jdbcType=INTEGER}
+  </update>
+</mapper>
