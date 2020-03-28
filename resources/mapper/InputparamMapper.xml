@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yan.dao.InputparamMapper" >
+  <resultMap id="BaseResultMap" type="com.yan.pojo.Inputparam" >
+    <id column="apiid" property="apiid" jdbcType="INTEGER" />
+    <id column="pname" property="pname" jdbcType="VARCHAR" />
+    <result column="datetype" property="datetype" jdbcType="VARCHAR" />
+    <result column="pformat" property="pformat" jdbcType="VARCHAR" />
+    <result column="parentParam" property="parentparam" jdbcType="VARCHAR" />
+    <result column="isSet" property="isset" jdbcType="CHAR" />
+    <result column="required" property="required" jdbcType="CHAR" />
+    <result column="preset" property="preset" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    apiid, pname, datetype, pformat, parentParam, isSet, required, preset
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.yan.pojo.InputparamKey" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_inputparam
+    where apiid = #{apiid,jdbcType=INTEGER}
+      and pname = #{pname,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.yan.pojo.InputparamKey" >
+    delete from tb_inputparam
+    where apiid = #{apiid,jdbcType=INTEGER}
+      and pname = #{pname,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.yan.pojo.Inputparam" >
+    insert into tb_inputparam (apiid, pname, datetype, 
+      pformat, parentParam, isSet, 
+      required, preset)
+    values (#{apiid,jdbcType=INTEGER}, #{pname,jdbcType=VARCHAR}, #{datetype,jdbcType=VARCHAR}, 
+      #{pformat,jdbcType=VARCHAR}, #{parentparam,jdbcType=VARCHAR}, #{isset,jdbcType=CHAR}, 
+      #{required,jdbcType=CHAR}, #{preset,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yan.pojo.Inputparam" >
+    insert into tb_inputparam
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="apiid != null" >
+        apiid,
+      </if>
+      <if test="pname != null" >
+        pname,
+      </if>
+      <if test="datetype != null" >
+        datetype,
+      </if>
+      <if test="pformat != null" >
+        pformat,
+      </if>
+      <if test="parentparam != null" >
+        parentParam,
+      </if>
+      <if test="isset != null" >
+        isSet,
+      </if>
+      <if test="required != null" >
+        required,
+      </if>
+      <if test="preset != null" >
+        preset,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="apiid != null" >
+        #{apiid,jdbcType=INTEGER},
+      </if>
+      <if test="pname != null" >
+        #{pname,jdbcType=VARCHAR},
+      </if>
+      <if test="datetype != null" >
+        #{datetype,jdbcType=VARCHAR},
+      </if>
+      <if test="pformat != null" >
+        #{pformat,jdbcType=VARCHAR},
+      </if>
+      <if test="parentparam != null" >
+        #{parentparam,jdbcType=VARCHAR},
+      </if>
+      <if test="isset != null" >
+        #{isset,jdbcType=CHAR},
+      </if>
+      <if test="required != null" >
+        #{required,jdbcType=CHAR},
+      </if>
+      <if test="preset != null" >
+        #{preset,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yan.pojo.Inputparam" >
+    update tb_inputparam
+    <set >
+      <if test="datetype != null" >
+        datetype = #{datetype,jdbcType=VARCHAR},
+      </if>
+      <if test="pformat != null" >
+        pformat = #{pformat,jdbcType=VARCHAR},
+      </if>
+      <if test="parentparam != null" >
+        parentParam = #{parentparam,jdbcType=VARCHAR},
+      </if>
+      <if test="isset != null" >
+        isSet = #{isset,jdbcType=CHAR},
+      </if>
+      <if test="required != null" >
+        required = #{required,jdbcType=CHAR},
+      </if>
+      <if test="preset != null" >
+        preset = #{preset,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where apiid = #{apiid,jdbcType=INTEGER}
+      and pname = #{pname,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yan.pojo.Inputparam" >
+    update tb_inputparam
+    set datetype = #{datetype,jdbcType=VARCHAR},
+      pformat = #{pformat,jdbcType=VARCHAR},
+      parentParam = #{parentparam,jdbcType=VARCHAR},
+      isSet = #{isset,jdbcType=CHAR},
+      required = #{required,jdbcType=CHAR},
+      preset = #{preset,jdbcType=VARCHAR}
+    where apiid = #{apiid,jdbcType=INTEGER}
+      and pname = #{pname,jdbcType=VARCHAR}
+  </update>
+</mapper>

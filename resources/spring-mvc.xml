@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>    
+<beans xmlns="http://www.springframework.org/schema/beans"    
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"    
+    xmlns:context="http://www.springframework.org/schema/context"    
+    xmlns:mvc="http://www.springframework.org/schema/mvc"  
+    xmlns:util="http://www.springframework.org/schema/util"  
+    xsi:schemaLocation="http://www.springframework.org/schema/beans      
+                        http://www.springframework.org/schema/beans/spring-beans-3.1.xsd      
+                        http://www.springframework.org/schema/context      
+                        http://www.springframework.org/schema/context/spring-context-3.1.xsd      
+                        http://www.springframework.org/schema/mvc      
+                        http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+                        http://www.springframework.org/schema/util
+                        http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+                          
+                            
+    <!--避免IE执行AJAX时，返回JSON出现下载文件 -->    
+    <bean id="mappingJacksonHttpMessageConverter"    
+        class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">    
+        <property name="supportedMediaTypes">    
+            <list>    
+                <value>text/html;charset=UTF-8</value>    
+            </list>    
+        </property>    
+    </bean>  
+      
+     <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">  
+        <property name="messageConverters">  
+            <list>  
+                <ref bean="stringHttpMessageConverter"/>  
+            </list>  
+        </property>  
+    </bean>  
+    <!-- String类型解析器，允许直接返回String类型的消息 -->  
+    <bean id="stringHttpMessageConverter" class="org.springframework.http.converter.StringHttpMessageConverter"/>  
+       
+       <util:properties id="applicationProps" location="classpath:pathconfig.properties"/>
+     <!-- 添加注解驱动 -->    
+        <mvc:annotation-driven />    
+        
+<!--           <mvc:default-servlet-handler/> -->
+     
+        
+     
+    <!-- 配置静态资源文件 -->
+     
+    <mvc:resources location="/css/" mapping="/css/**"/>
+    <mvc:resources location="/lib/" mapping="/lib/**"/>
+    <mvc:resources location="/fonts/" mapping="/fonts/**"/>
+    <mvc:resources location="/images/" mapping="/images/**"/>
+    <mvc:resources location="/js/" mapping="/js/**"/>
+<!--     <mvc:resources location="/jsp/" mapping="/jsp/**"/> -->
+      
+      
+      <!-- 配置拦截器 -->
+	      <mvc:interceptors>
+                <mvc:interceptor>
+<!--                   /**表示所有url包括子url路径 -->
+                    <mvc:mapping path="/**"/>
+<!--                      不进行拦截  一下是不拦截的路径 -->
+               <mvc:exclude-mapping path="/login"/>
+               <mvc:exclude-mapping path="/login/tologin"/>
+               <mvc:exclude-mapping path="/login/toAddUser"/>
+               <mvc:exclude-mapping path="/css/**"/>
+               <mvc:exclude-mapping path="/js/**"/>
+               <mvc:exclude-mapping path="/fonts/**"/>
+               <mvc:exclude-mapping path="/lib/**"/>
+               <mvc:exclude-mapping path="/jsp/**"/>
+               <mvc:exclude-mapping path="/error/**"/>
+               <mvc:exclude-mapping path="/images/**"/>
+               <bean class="com.yan.util.SysInterceptor"/>
+                </mvc:interceptor>
+           </mvc:interceptors>
+      
+      
+      
+    <!-- 完成请求和注解POJO的映射 -->    
+    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">    
+        <property name="messageConverters">    
+            <list>    
+                <ref bean="mappingJacksonHttpMessageConverter" /> <!-- JSON转换器 -->    
+            </list>    
+        </property>    
+    </bean>  
+     
+<!--     <context:property-placeholder location="classpath:pathConfig.properties"/> -->
+    <!-- 定义跳转的文件的前后缀 ，视图模式配置-->    
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">    
+        <!-- 这里的配置我的理解是自动给后面action的方法return的字符串加上前缀和后缀，变成一个 可用的url地址 --> 
+        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>   
+        <property name="prefix" value="/WEB-INF/jsp/" />    
+        <property name="suffix" value=".jsp" />    
+    </bean>    
+        <!-- 设置使用注解的类所在的包 -->    
+    <context:component-scan base-package="com.yan.controller" />
+    <!-- SpringMVC上传文件时，需要配置MultipartResolver处理器-->    
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">      
+        <!-- 默认编码 -->    
+        <property name="defaultEncoding" value="utf-8" />      
+        <!-- 文件大小最大值 -->    
+        <property name="maxUploadSize" value="10485760000" />      
+        <!-- 内存中的最大值 -->    
+        <property name="maxInMemorySize" value="40960" />      
+    </bean>     
+    <!-- 在非 Controller 中需要调用 Service 中的方法需要配置这个 -->
+    <bean id="SpringApplicationContext" class="com.yan.util.ApplicationContextHelper"></bean>
+</beans> 

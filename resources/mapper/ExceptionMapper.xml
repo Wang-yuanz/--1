@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yan.dao.ExceptionMapper" >
+  <resultMap id="BaseResultMap" type="com.yan.pojo.Exception" >
+    <id column="apiid" property="apiid" jdbcType="INTEGER" />
+    <id column="excName" property="excname" jdbcType="VARCHAR" />
+    <result column="excValue" property="excvalue" jdbcType="VARCHAR" />
+    <result column="excMsg" property="excmsg" jdbcType="VARCHAR" />
+    <result column="excType" property="exctype" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    apiid, excName, excValue, excMsg, excType
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.yan.pojo.ExceptionKey" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_exception
+    where apiid = #{apiid,jdbcType=INTEGER}
+      and excName = #{excname,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.yan.pojo.ExceptionKey" >
+    delete from tb_exception
+    where apiid = #{apiid,jdbcType=INTEGER}
+      and excName = #{excname,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.yan.pojo.Exception" >
+    insert into tb_exception (apiid, excName, excValue, 
+      excMsg, excType)
+    values (#{apiid,jdbcType=INTEGER}, #{excname,jdbcType=VARCHAR}, #{excvalue,jdbcType=VARCHAR}, 
+      #{excmsg,jdbcType=VARCHAR}, #{exctype,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yan.pojo.Exception" >
+    insert into tb_exception
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="apiid != null" >
+        apiid,
+      </if>
+      <if test="excname != null" >
+        excName,
+      </if>
+      <if test="excvalue != null" >
+        excValue,
+      </if>
+      <if test="excmsg != null" >
+        excMsg,
+      </if>
+      <if test="exctype != null" >
+        excType,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="apiid != null" >
+        #{apiid,jdbcType=INTEGER},
+      </if>
+      <if test="excname != null" >
+        #{excname,jdbcType=VARCHAR},
+      </if>
+      <if test="excvalue != null" >
+        #{excvalue,jdbcType=VARCHAR},
+      </if>
+      <if test="excmsg != null" >
+        #{excmsg,jdbcType=VARCHAR},
+      </if>
+      <if test="exctype != null" >
+        #{exctype,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yan.pojo.Exception" >
+    update tb_exception
+    <set >
+      <if test="excvalue != null" >
+        excValue = #{excvalue,jdbcType=VARCHAR},
+      </if>
+      <if test="excmsg != null" >
+        excMsg = #{excmsg,jdbcType=VARCHAR},
+      </if>
+      <if test="exctype != null" >
+        excType = #{exctype,jdbcType=CHAR},
+      </if>
+    </set>
+    where apiid = #{apiid,jdbcType=INTEGER}
+      and excName = #{excname,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yan.pojo.Exception" >
+    update tb_exception
+    set excValue = #{excvalue,jdbcType=VARCHAR},
+      excMsg = #{excmsg,jdbcType=VARCHAR},
+      excType = #{exctype,jdbcType=CHAR}
+    where apiid = #{apiid,jdbcType=INTEGER}
+      and excName = #{excname,jdbcType=VARCHAR}
+  </update>
+</mapper>

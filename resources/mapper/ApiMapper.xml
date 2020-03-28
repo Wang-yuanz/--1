@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yan.dao.ApiMapper" >
+  <resultMap id="BaseResultMap" type="com.yan.pojo.Api" >
+    <id column="apiid" property="apiid" jdbcType="INTEGER" />
+    <result column="sname" property="sname" jdbcType="VARCHAR" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="returnDataFormat" property="returndataformat" jdbcType="CHAR" />
+    <result column="returnData" property="returndata" jdbcType="VARCHAR" />
+    <result column="requestMode" property="requestmode" jdbcType="CHAR" />
+    <result column="exeStateObj" property="exestateobj" jdbcType="VARCHAR" />
+    <result column="apiTypeTag" property="apitypetag" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.yan.pojo.ApiWithBLOBs" extends="BaseResultMap" >
+    <result column="requestExample" property="requestexample" jdbcType="LONGVARCHAR" />
+    <result column="remark" property="remark" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    apiid, sname, url, returnDataFormat, returnData, requestMode, exeStateObj, apiTypeTag
+  </sql>
+  <sql id="Blob_Column_List" >
+    requestExample, remark
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from tb_api
+    where apiid = #{apiid,jdbcType=INTEGER}
+ </select>
+  
+  
+  
+   <select id="selectApis" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from tb_api
+  </select>
+  
+  
+ <select id="selectByRemark" resultMap="ResultMapWithBLOBs" parameterType="com.yan.pojo.ApiWithBLOBs" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from tb_api
+    where 1=1
+    <if test="remark != null and remark !=''" >
+    and remark = #{remark,jdbcType=LONGVARCHAR}
+    </if>
+     order by exeStateObj  desc
+  </select>
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tb_api
+    where apiid = #{apiid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.yan.pojo.ApiWithBLOBs" >
+    insert into tb_api (apiid, sname, url, 
+      returnDataFormat, returnData, requestMode, 
+      exeStateObj, apiTypeTag, requestExample, 
+      remark)
+    values (#{apiid,jdbcType=INTEGER}, #{sname,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, 
+      #{returndataformat,jdbcType=CHAR}, #{returndata,jdbcType=VARCHAR}, #{requestmode,jdbcType=CHAR}, 
+      #{exestateobj,jdbcType=VARCHAR}, #{apitypetag,jdbcType=VARCHAR}, #{requestexample,jdbcType=LONGVARCHAR}, 
+      #{remark,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective"  useGeneratedKeys="true" keyProperty="apiid" keyColumn="apiid"    parameterType="com.yan.pojo.ApiWithBLOBs" >
+    insert into tb_api
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="apiid != null" >
+        apiid,
+      </if>
+      <if test="sname != null" >
+        sname,
+      </if>
+      <if test="url != null" >
+        url,
+      </if>
+      <if test="returndataformat != null" >
+        returnDataFormat,
+      </if>
+      <if test="returndata != null" >
+        returnData,
+      </if>
+      <if test="requestmode != null" >
+        requestMode,
+      </if>
+      <if test="exestateobj != null" >
+        exeStateObj,
+      </if>
+      <if test="apitypetag != null" >
+        apiTypeTag,
+      </if>
+      <if test="requestexample != null" >
+        requestExample,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="apiid != null" >
+        #{apiid,jdbcType=INTEGER},
+      </if>
+      <if test="sname != null" >
+        #{sname,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="returndataformat != null" >
+        #{returndataformat,jdbcType=CHAR},
+      </if>
+      <if test="returndata != null" >
+        #{returndata,jdbcType=VARCHAR},
+      </if>
+      <if test="requestmode != null" >
+        #{requestmode,jdbcType=CHAR},
+      </if>
+      <if test="exestateobj != null" >
+        #{exestateobj,jdbcType=VARCHAR},
+      </if>
+      <if test="apitypetag != null" >
+        #{apitypetag,jdbcType=VARCHAR},
+      </if>
+      <if test="requestexample != null" >
+        #{requestexample,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yan.pojo.ApiWithBLOBs" >
+    update tb_api
+    <set >
+      <if test="sname != null" >
+        sname = #{sname,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="returndataformat != null" >
+        returnDataFormat = #{returndataformat,jdbcType=CHAR},
+      </if>
+      <if test="returndata != null" >
+        returnData = #{returndata,jdbcType=VARCHAR},
+      </if>
+      <if test="requestmode != null" >
+        requestMode = #{requestmode,jdbcType=CHAR},
+      </if>
+      <if test="exestateobj != null" >
+        exeStateObj = #{exestateobj,jdbcType=VARCHAR},
+      </if>
+      <if test="apitypetag != null" >
+        apiTypeTag = #{apitypetag,jdbcType=VARCHAR},
+      </if>
+      <if test="requestexample != null" >
+        requestExample = #{requestexample,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where apiid = #{apiid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.yan.pojo.ApiWithBLOBs" >
+    update tb_api
+    set sname = #{sname,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR},
+      returnDataFormat = #{returndataformat,jdbcType=CHAR},
+      returnData = #{returndata,jdbcType=VARCHAR},
+      requestMode = #{requestmode,jdbcType=CHAR},
+      exeStateObj = #{exestateobj,jdbcType=VARCHAR},
+      apiTypeTag = #{apitypetag,jdbcType=VARCHAR},
+      requestExample = #{requestexample,jdbcType=LONGVARCHAR},
+      remark = #{remark,jdbcType=LONGVARCHAR}
+    where apiid = #{apiid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yan.pojo.Api" >
+    update tb_api
+    set sname = #{sname,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR},
+      returnDataFormat = #{returndataformat,jdbcType=CHAR},
+      returnData = #{returndata,jdbcType=VARCHAR},
+      requestMode = #{requestmode,jdbcType=CHAR},
+      exeStateObj = #{exestateobj,jdbcType=VARCHAR},
+      apiTypeTag = #{apitypetag,jdbcType=VARCHAR}
+    where apiid = #{apiid,jdbcType=INTEGER}
+  </update>
+</mapper>

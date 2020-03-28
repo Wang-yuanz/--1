@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yan.dao.ServiceMapper" >
+  <resultMap id="BaseResultMap" type="com.yan.pojo.Service" >
+    <id column="sname" property="sname" jdbcType="VARCHAR" />
+    <result column="provider" property="provider" jdbcType="VARCHAR" />
+    <result column="providerUrl" property="providerurl" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.yan.pojo.Service" extends="BaseResultMap" >
+    <result column="remark" property="remark" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    sname, provider, providerUrl
+  </sql>
+  <sql id="Blob_Column_List" >
+    remark
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from tb_service
+    where sname = #{sname,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from tb_service
+    where sname = #{sname,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.yan.pojo.Service" >
+    insert into tb_service (sname, provider, providerUrl, 
+      remark)
+    values (#{sname,jdbcType=VARCHAR}, #{provider,jdbcType=VARCHAR}, #{providerurl,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yan.pojo.Service" >
+    insert into tb_service
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="sname != null" >
+        sname,
+      </if>
+      <if test="provider != null" >
+        provider,
+      </if>
+      <if test="providerurl != null" >
+        providerUrl,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="sname != null" >
+        #{sname,jdbcType=VARCHAR},
+      </if>
+      <if test="provider != null" >
+        #{provider,jdbcType=VARCHAR},
+      </if>
+      <if test="providerurl != null" >
+        #{providerurl,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yan.pojo.Service" >
+    update tb_service
+    <set >
+      <if test="provider != null" >
+        provider = #{provider,jdbcType=VARCHAR},
+      </if>
+      <if test="providerurl != null" >
+        providerUrl = #{providerurl,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where sname = #{sname,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.yan.pojo.Service" >
+    update tb_service
+    set provider = #{provider,jdbcType=VARCHAR},
+      providerUrl = #{providerurl,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=LONGVARCHAR}
+    where sname = #{sname,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yan.pojo.Service" >
+    update tb_service
+    set provider = #{provider,jdbcType=VARCHAR},
+      providerUrl = #{providerurl,jdbcType=VARCHAR}
+    where sname = #{sname,jdbcType=VARCHAR}
+  </update>
+</mapper>
